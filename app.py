@@ -233,20 +233,21 @@ def api_responder():
     data = request.get_json()
     mensaje = data.get('mensaje', '').strip().lower()
     numero = data.get('numero')
+    user_id = data.get('user_id')
 
-    # Buscar usuario asociado al número (lógica simulada para este ejemplo)
-    usuario = Usuario.query.order_by(Usuario.id.desc()).first()  # Simula usar el último creado
-  # ⚠️ Por ahora usamos el primer usuario
+    if not user_id:
+        return jsonify({"respuesta": "❌ Falta user_id"}), 400
 
+    usuario = Usuario.query.get(user_id)
     if not usuario or not usuario.activo:
         return jsonify({"respuesta": "Este bot está inactivo. Contacte a soporte."})
 
-    # 1. Buscar coincidencia exacta en reglas personalizadas
+    # 1. Buscar coincidencia exacta
     regla = Respuesta.query.filter_by(usuario_id=usuario.id, mensaje=mensaje).first()
     if regla:
         return jsonify({"respuesta": regla.respuesta})
 
-    # 2. Generar respuesta con IA usando el perfil del negocio
+    # 2. Si no hay coincidencia, usar IA
     perfil = PerfilNegocio.query.filter_by(usuario_id=usuario.id).first()
     contexto = f"Negocio: {perfil.nombre}, Servicios: {perfil.servicios}, Ubicación: {perfil.ubicacion}, Horarios: {perfil.horarios}, Estilo: {perfil.estilo}" if perfil else "Negocio local"
 
@@ -266,8 +267,9 @@ Respuesta:"""
         texto_ia = respuesta_ia.choices[0].message.content.strip()
         return jsonify({"respuesta": texto_ia})
     except Exception as e:
-        print("❌ Error con OpenAI:", str(e))  # ← MOSTRAR error real
+        print("❌ Error con OpenAI:", str(e))
         return jsonify({"respuesta": "Lo siento, no puedo responder ahora."})
+
 
 
 # ---------- INICIALIZAR ----------
