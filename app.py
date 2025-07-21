@@ -242,12 +242,13 @@ def api_responder():
     if not usuario or not usuario.activo:
         return jsonify({"respuesta": "Este bot está inactivo. Contacte a soporte."})
 
-    # 1. Buscar coincidencia exacta
-    regla = Respuesta.query.filter_by(usuario_id=usuario.id, mensaje=mensaje).first()
-    if regla:
-        return jsonify({"respuesta": regla.respuesta})
+    # 1. Buscar coincidencia parcial con sensibilidad reducida
+    reglas = Respuesta.query.filter_by(usuario_id=usuario.id).all()
+    for r in reglas:
+        if r.mensaje.lower() in mensaje:
+            return jsonify({"respuesta": r.respuesta})
 
-    # 2. Si no hay coincidencia, usar IA
+    # 2. Generar con IA si no hay coincidencia
     perfil = PerfilNegocio.query.filter_by(usuario_id=usuario.id).first()
     contexto = f"Negocio: {perfil.nombre}, Servicios: {perfil.servicios}, Ubicación: {perfil.ubicacion}, Horarios: {perfil.horarios}, Estilo: {perfil.estilo}" if perfil else "Negocio local"
 
@@ -269,8 +270,6 @@ Respuesta:"""
     except Exception as e:
         print("❌ Error con OpenAI:", str(e))
         return jsonify({"respuesta": "Lo siento, no puedo responder ahora."})
-
-
 
 # ---------- INICIALIZAR ----------
 if __name__ == '__main__':
