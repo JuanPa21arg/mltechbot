@@ -131,3 +131,36 @@ footer {
         font-size: 15px;
     }
 }
+
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    .contenedor {
+        max-width: 95%;
+        margin: 20px auto;
+        padding: 20px 15px;
+    }
+
+    input, button, textarea {
+        font-size: 16px;
+    }
+
+    .branding img {
+        height: 50px;
+    }
+
+    .branding h1 {
+        font-size: 22px;
+    }
+
+    footer {
+        font-size: 0.85em;
+        padding: 15px;
+    }
+
+    footer p {
+        margin: 5px 0;
+    }
+}

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Iniciar sesión - MLTechBot | MLTechHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 🔁 Importante para móviles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -19,15 +20,15 @@
 
         <form method="POST">
             <label for="nombre">Usuario:</label>
-            <input type="text" name="nombre" required>
+            <input type="text" name="nombre" placeholder="Tu nombre de usuario" required>
 
             <label for="contraseña">Contraseña:</label>
-            <input type="password" name="contraseña" required>
+            <input type="password" name="contraseña" placeholder="Tu contraseña" required>
 
             <button type="submit"><i class="fas fa-arrow-right-to-bracket"></i> Entrar</button>
         </form>
 
-        <p>¿No tenés cuenta? <a href="{{ url_for('registro') }}">Registrate acá</a></p>
+        <p style="text-align: center;">¿No tenés cuenta? <a href="{{ url_for('registro') }}">Registrate acá</a></p>
     </div>
 
     <footer>

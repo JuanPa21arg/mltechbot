@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de administración | MLTechHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 📱 Para móviles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -11,6 +12,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 15px;
         }
 
         th, td {
@@ -25,7 +27,8 @@
         }
 
         td a {
-            margin: 0 5px;
+            margin: 0 4px;
+            font-size: 0.9em;
         }
 
         .contenedor form button {
@@ -45,6 +48,43 @@
         .mensaje {
             color: green;
             margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                display: none;
+            }
+
+            td {
+                text-align: left;
+                padding-left: 40%;
+                position: relative;
+                border: none;
+                border-bottom: 1px solid #ccc;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                font-weight: bold;
+                color: #555;
+            }
+
+            td:last-child {
+                padding-bottom: 20px;
+            }
+
+            .contenedor form button {
+                width: 100%;
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -62,7 +102,7 @@
           {% if mensajes %}
             <ul>
               {% for categoria, mensaje in mensajes %}
-                <li class="mensaje"><strong>{{ mensaje }}</strong></li>
+                <li class="mensaje">{{ mensaje }}</li>
               {% endfor %}
             </ul>
           {% endif %}
@@ -82,10 +122,10 @@
             <tbody>
                 {% for usuario in usuarios %}
                 <tr>
-                    <td>{{ usuario.id }}</td>
-                    <td>{{ usuario.nombre }}</td>
-                    <td>{{ usuario.correo }}</td>
-                    <td>
+                    <td data-label="ID">{{ usuario.id }}</td>
+                    <td data-label="Nombre">{{ usuario.nombre }}</td>
+                    <td data-label="Correo">{{ usuario.correo }}</td>
+                    <td data-label="Activo">
                         {% if usuario.activo %}
                             ✅ Activo
                             <a href="{{ url_for('toggle_usuario', user_id=usuario.id) }}">❌ Desactivar</a>
@@ -94,7 +134,7 @@
                             <a href="{{ url_for('toggle_usuario', user_id=usuario.id) }}">✅ Activar</a>
                         {% endif %}
                     </td>
-                    <td>
+                    <td data-label="Admin">
                         {% if usuario.es_admin %}
                             ✅ Admin
                             <a href="{{ url_for('toggle_admin', user_id=usuario.id) }}">❌ Quitar</a>
@@ -103,7 +143,7 @@
                             <a href="{{ url_for('toggle_admin', user_id=usuario.id) }}">✅ Hacer admin</a>
                         {% endif %}
                     </td>
-                    <td>
+                    <td data-label="Acciones">
                         <form method="POST" action="{{ url_for('eliminar_usuario', user_id=usuario.id) }}" onsubmit="return confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.');">
                             <button type="submit"><i class="fas fa-trash-alt"></i> Eliminar</button>
                         </form>
@@ -113,7 +153,9 @@
             </tbody>
         </table>
 
-        <p style="margin-top: 20px;"><a href="{{ url_for('inicio') }}">⬅ Volver al panel</a></p>
+        <p style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('inicio') }}">⬅ Volver al panel</a>
+        </p>
     </div>
 
     <footer>

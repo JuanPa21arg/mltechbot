@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Respuestas automáticas | MLTechHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 👈 Responsivo -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -18,15 +19,42 @@
             padding: 10px 12px;
             border-radius: 8px;
             border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ul li strong {
+            color: #333;
         }
 
         ul li a {
-            margin-left: 10px;
+            margin-top: 5px;
             font-size: 0.95em;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        ul li a:hover {
+            text-decoration: underline;
         }
 
         hr {
             margin: 30px 0;
+        }
+
+        @media (max-width: 600px) {
+            ul li {
+                font-size: 15px;
+                padding: 10px;
+            }
+
+            form input {
+                font-size: 15px;
+            }
+
+            button {
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -42,10 +70,10 @@
 
         <form method="POST">
             <label for="mensaje">Si el mensaje contiene:</label>
-            <input type="text" name="mensaje" required>
+            <input type="text" name="mensaje" placeholder="Ej: hola, precios, horarios..." required>
 
             <label for="respuesta">Responder con:</label>
-            <input type="text" name="respuesta" required>
+            <input type="text" name="respuesta" placeholder="Ej: ¡Hola! ¿En qué te ayudo?" required>
 
             <button type="submit"><i class="fas fa-plus"></i> Agregar regla</button>
         </form>
@@ -57,16 +85,20 @@
             {% for r in reglas %}
                 <li>
                     <strong>{{ r.mensaje }}</strong> → {{ r.respuesta }}
-                    <a href="{{ url_for('editar_respuesta', id=r.id) }}"><i class="fas fa-pen"></i> Editar</a>
-                    |
-                    <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');"><i class="fas fa-trash"></i> Eliminar</a>
+                    <div>
+                        <a href="{{ url_for('editar_respuesta', id=r.id) }}"><i class="fas fa-pen"></i> Editar</a>
+                        |
+                        <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');"><i class="fas fa-trash"></i> Eliminar</a>
+                    </div>
                 </li>
             {% else %}
                 <li>No tenés reglas aún.</li>
             {% endfor %}
         </ul>
 
-        <p style="margin-top: 20px;"><a href="{{ url_for('inicio') }}">⬅ Volver al panel</a></p>
+        <p style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('inicio') }}">⬅ Volver al panel</a>
+        </p>
     </div>
 
     <footer>

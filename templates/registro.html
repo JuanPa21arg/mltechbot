@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro - MLTechBot | MLTechHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsivo -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,21 +16,22 @@
             <p class="subtitulo">Automatizá tu negocio con tecnología de MLTechHub</p>
         </div>
 
-        <h2>Crear cuenta</h2>
+        <h2><i class="fas fa-user-plus"></i> Crear cuenta</h2>
+
         <form method="POST">
             <label for="nombre">Usuario:</label>
-            <input type="text" name="nombre" required>
+            <input type="text" name="nombre" placeholder="Nombre de usuario" required>
 
             <label for="correo">Correo electrónico:</label>
-            <input type="email" name="correo" required>
+            <input type="email" name="correo" placeholder="correo@ejemplo.com" required>
 
             <label for="contraseña">Contraseña:</label>
-            <input type="password" name="contraseña" required>
+            <input type="password" name="contraseña" placeholder="Mínimo 6 caracteres" required>
 
-            <button type="submit">Registrar</button>
+            <button type="submit"><i class="fas fa-user-check"></i> Registrar</button>
         </form>
 
-        <p>¿Ya tenés cuenta? <a href="{{ url_for('login') }}">Iniciá sesión</a></p>
+        <p style="text-align: center;">¿Ya tenés cuenta? <a href="{{ url_for('login') }}">Iniciá sesión</a></p>
     </div>
 
     <footer>

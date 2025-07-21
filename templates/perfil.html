@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Perfil del negocio | MLTechHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 👈 Responsivo -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,10 +18,10 @@
 
         <h2><i class="fas fa-brain"></i> Perfil del negocio</h2>
 
-        <!-- Mostrar mensajes flash -->
+        <!-- Mensajes flash -->
         {% with mensajes = get_flashed_messages(with_categories=true) %}
           {% if mensajes %}
-            <ul>
+            <ul style="padding-left: 15px;">
               {% for categoria, mensaje in mensajes %}
                 <li style="color: green;"><strong>{{ mensaje }}</strong></li>
               {% endfor %}
@@ -33,21 +34,23 @@
             <input type="text" name="nombre" value="{{ perfil.nombre if perfil else '' }}" required>
 
             <label for="servicios">Productos o servicios:</label>
-            <textarea name="servicios" rows="3">{{ perfil.servicios if perfil else '' }}</textarea>
+            <textarea name="servicios" rows="3" placeholder="Ej: Florería, delivery, ramos personalizados...">{{ perfil.servicios if perfil else '' }}</textarea>
 
             <label for="horarios">Horarios de atención:</label>
-            <input type="text" name="horarios" value="{{ perfil.horarios if perfil else '' }}">
+            <input type="text" name="horarios" value="{{ perfil.horarios if perfil else '' }}" placeholder="Ej: Lunes a viernes de 9 a 18hs">
 
             <label for="ubicacion">Ubicación o zona:</label>
-            <input type="text" name="ubicacion" value="{{ perfil.ubicacion if perfil else '' }}">
+            <input type="text" name="ubicacion" value="{{ perfil.ubicacion if perfil else '' }}" placeholder="Ej: San Miguel de Tucumán, centro">
 
-            <label for="estilo">Estilo de respuesta (ej: formal, amigable):</label>
-            <input type="text" name="estilo" value="{{ perfil.estilo if perfil else '' }}">
+            <label for="estilo">Estilo de respuesta (formal, amigable...):</label>
+            <input type="text" name="estilo" value="{{ perfil.estilo if perfil else '' }}" placeholder="Ej: informal, cordial, con emojis...">
 
             <button type="submit"><i class="fas fa-save"></i> Guardar perfil</button>
         </form>
 
-        <p style="margin-top: 20px;"><a href="{{ url_for('inicio') }}">⬅ Volver al panel</a></p>
+        <p style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('inicio') }}">⬅ Volver al panel</a>
+        </p>
     </div>
 
     <footer>
