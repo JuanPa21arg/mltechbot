@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil del negocio | MLTechHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="branding">
+            <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
+            <h1>MLTechBot</h1>
+            <p class="subtitulo">Personalizá cómo se presenta tu negocio</p>
+        </div>
+
+        <h2><i class="fas fa-brain"></i> Perfil del negocio</h2>
+
+        <!-- Mostrar mensajes flash -->
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+          {% if mensajes %}
+            <ul>
+              {% for categoria, mensaje in mensajes %}
+                <li style="color: green;"><strong>{{ mensaje }}</strong></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <label for="nombre">Nombre del negocio:</label>
+            <input type="text" name="nombre" value="{{ perfil.nombre if perfil else '' }}" required>
+
+            <label for="servicios">Productos o servicios:</label>
+            <textarea name="servicios" rows="3">{{ perfil.servicios if perfil else '' }}</textarea>
+
+            <label for="horarios">Horarios de atención:</label>
+            <input type="text" name="horarios" value="{{ perfil.horarios if perfil else '' }}">
+
+            <label for="ubicacion">Ubicación o zona:</label>
+            <input type="text" name="ubicacion" value="{{ perfil.ubicacion if perfil else '' }}">
+
+            <label for="estilo">Estilo de respuesta (ej: formal, amigable):</label>
+            <input type="text" name="estilo" value="{{ perfil.estilo if perfil else '' }}">
+
+            <button type="submit"><i class="fas fa-save"></i> Guardar perfil</button>
+        </form>
+
+        <p style="margin-top: 20px;"><a href="{{ url_for('inicio') }}">⬅ Volver al panel</a></p>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="anio"></span> MLTechHub. Todos los derechos reservados.</p>
+        <p>Desarrollado por <strong>MLTechHub</strong></p>
+        <p>
+            <i class="fas fa-envelope"></i> admin@mltechhub.com |
+            <i class="fas fa-globe"></i> <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
+            <i class="fas fa-phone"></i> +54 381 562-6494
+        </p>
+        <p>
+            <i class="fab fa-instagram"></i>
+            <a href="https://instagram.com/mltechhub" target="_blank">@mltechhub</a>
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('anio').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

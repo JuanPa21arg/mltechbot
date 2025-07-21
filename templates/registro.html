@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - MLTechBot | MLTechHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="branding">
+            <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
+            <h1>MLTechBot</h1>
+            <p class="subtitulo">Automatizá tu negocio con tecnología de MLTechHub</p>
+        </div>
+
+        <h2>Crear cuenta</h2>
+        <form method="POST">
+            <label for="nombre">Usuario:</label>
+            <input type="text" name="nombre" required>
+
+            <label for="correo">Correo electrónico:</label>
+            <input type="email" name="correo" required>
+
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" name="contraseña" required>
+
+            <button type="submit">Registrar</button>
+        </form>
+
+        <p>¿Ya tenés cuenta? <a href="{{ url_for('login') }}">Iniciá sesión</a></p>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="anio"></span> MLTechHub. Todos los derechos reservados.</p>
+        <p>Desarrollado por <strong>MLTechHub</strong></p>
+        <p>
+            <i class="fas fa-envelope"></i> admin@mltechhub.com |
+            <i class="fas fa-globe"></i> <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
+            <i class="fas fa-phone"></i> +54 381 562-6494
+        </p>
+        <p>
+            <i class="fab fa-instagram"></i>
+            <a href="https://instagram.com/mltechhub" target="_blank">@mltechhub</a>
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('anio').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

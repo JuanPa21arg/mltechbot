@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Respuestas automáticas | MLTechHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            background-color: #f7f7f7;
+            margin-bottom: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        ul li a {
+            margin-left: 10px;
+            font-size: 0.95em;
+        }
+
+        hr {
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="branding">
+            <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
+            <h1>MLTechBot</h1>
+            <p class="subtitulo">Gestioná las respuestas automáticas del bot</p>
+        </div>
+
+        <h2><i class="fas fa-comments"></i> Reglas de respuesta</h2>
+
+        <form method="POST">
+            <label for="mensaje">Si el mensaje contiene:</label>
+            <input type="text" name="mensaje" required>
+
+            <label for="respuesta">Responder con:</label>
+            <input type="text" name="respuesta" required>
+
+            <button type="submit"><i class="fas fa-plus"></i> Agregar regla</button>
+        </form>
+
+        <hr>
+
+        <h3><i class="fas fa-list"></i> Mis reglas:</h3>
+        <ul>
+            {% for r in reglas %}
+                <li>
+                    <strong>{{ r.mensaje }}</strong> → {{ r.respuesta }}
+                    <a href="{{ url_for('editar_respuesta', id=r.id) }}"><i class="fas fa-pen"></i> Editar</a>
+                    |
+                    <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');"><i class="fas fa-trash"></i> Eliminar</a>
+                </li>
+            {% else %}
+                <li>No tenés reglas aún.</li>
+            {% endfor %}
+        </ul>
+
+        <p style="margin-top: 20px;"><a href="{{ url_for('inicio') }}">⬅ Volver al panel</a></p>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="anio"></span> MLTechHub. Todos los derechos reservados.</p>
+        <p>Desarrollado por <strong>MLTechHub</strong></p>
+        <p>
+            <i class="fas fa-envelope"></i> admin@mltechhub.com |
+            <i class="fas fa-globe"></i> <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
+            <i class="fas fa-phone"></i> +54 381 562-6494
+        </p>
+        <p>
+            <i class="fab fa-instagram"></i>
+            <a href="https://instagram.com/mltechhub" target="_blank">@mltechhub</a>
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('anio').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

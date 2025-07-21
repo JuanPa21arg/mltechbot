@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de administración | MLTechHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        td a {
+            margin: 0 5px;
+        }
+
+        .contenedor form button {
+            padding: 6px 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .contenedor form button:hover {
+            background-color: #c0392b;
+        }
+
+        .mensaje {
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="branding">
+            <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
+            <h1>MLTechBot</h1>
+            <p class="subtitulo">Panel de administración de usuarios</p>
+        </div>
+
+        <h2><i class="fas fa-tools"></i> Panel de administración</h2>
+
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+          {% if mensajes %}
+            <ul>
+              {% for categoria, mensaje in mensajes %}
+                <li class="mensaje"><strong>{{ mensaje }}</strong></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Activo</th>
+                    <th>Admin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.id }}</td>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.correo }}</td>
+                    <td>
+                        {% if usuario.activo %}
+                            ✅ Activo
+                            <a href="{{ url_for('toggle_usuario', user_id=usuario.id) }}">❌ Desactivar</a>
+                        {% else %}
+                            ❌ Inactivo
+                            <a href="{{ url_for('toggle_usuario', user_id=usuario.id) }}">✅ Activar</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if usuario.es_admin %}
+                            ✅ Admin
+                            <a href="{{ url_for('toggle_admin', user_id=usuario.id) }}">❌ Quitar</a>
+                        {% else %}
+                            ❌ No
+                            <a href="{{ url_for('toggle_admin', user_id=usuario.id) }}">✅ Hacer admin</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url_for('eliminar_usuario', user_id=usuario.id) }}" onsubmit="return confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.');">
+                            <button type="submit"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p style="margin-top: 20px;"><a href="{{ url_for('inicio') }}">⬅ Volver al panel</a></p>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="anio"></span> MLTechHub. Todos los derechos reservados.</p>
+        <p>Desarrollado por <strong>MLTechHub</strong></p>
+        <p>
+            <i class="fas fa-envelope"></i> admin@mltechhub.com |
+            <i class="fas fa-globe"></i> <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
+            <i class="fas fa-phone"></i> +54 381 562-6494
+        </p>
+        <p>
+            <i class="fab fa-instagram"></i>
+            <a href="https://instagram.com/mltechhub" target="_blank">@mltechhub</a>
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('anio').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

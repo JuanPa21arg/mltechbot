@@ -1,0 +1,133 @@
+/* Fuente general */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Contenedor principal */
+.contenedor {
+    max-width: 420px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 35px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.contenedor:hover {
+    transform: scale(1.01);
+}
+
+/* Branding */
+.branding {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.branding img {
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.branding h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #007bff;
+}
+
+.branding .subtitulo {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Título principal */
+h2 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Formularios */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #555;
+}
+
+input, textarea, select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Botón */
+button {
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Enlaces */
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    font-size: 0.9em;
+    color: #777;
+    border-top: 1px solid #ddd;
+    background-color: #f4f4f4;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .contenedor {
+        margin: 30px 20px;
+        padding: 25px 20px;
+    }
+
+    .branding h1 {
+        font-size: 24px;
+    }
+
+    button {
+        font-size: 15px;
+    }
+}

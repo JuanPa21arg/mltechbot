@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel - MLTechBot | MLTechHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        ul li {
+            margin: 12px 0;
+        }
+
+        ul li a {
+            display: inline-block;
+            padding: 12px 15px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        ul li a:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="branding">
+            <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
+            <h1>MLTechBot</h1>
+            <p class="subtitulo">Panel principal de configuración</p>
+        </div>
+
+        <h2><i class="fas fa-user-circle"></i> ¡Bienvenido {{ usuario.nombre }}!</h2>
+
+        <p>Configurá tu bot desde acá:</p>
+
+        <ul>
+            <li><a href="{{ url_for('perfil') }}"><i class="fas fa-brain"></i> Perfil del negocio</a></li>
+            <li><a href="{{ url_for('respuestas') }}"><i class="fas fa-comment-dots"></i> Respuestas automáticas</a></li>
+            {% if usuario.es_admin %}
+            <li><a href="{{ url_for('admin') }}"><i class="fas fa-tools"></i> Panel de administración</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('logout') }}"><i class="fas fa-door-open"></i> Cerrar sesión</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="anio"></span> MLTechHub. Todos los derechos reservados.</p>
+        <p>Desarrollado por <strong>MLTechHub</strong></p>
+        <p>
+            <i class="fas fa-envelope"></i> admin@mltechhub.com |
+            <i class="fas fa-globe"></i> <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
+            <i class="fas fa-phone"></i> +54 381 562-6494
+        </p>
+        <p>
+            <i class="fab fa-instagram"></i>
+            <a href="https://instagram.com/mltechhub" target="_blank">@mltechhub</a>
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('anio').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
