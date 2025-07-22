@@ -48,7 +48,8 @@ class Usuario(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), unique=True, nullable=False)
     correo = db.Column(db.String(100), unique=True)
-    contraseña = db.Column(db.String(100), nullable=False)
+    contraseña = db.Column(db.String(512), nullable=False)
+    tiene_ia = db.Column(db.Boolean, default=False)
     es_admin = db.Column(db.Boolean, default=False)
     activo = db.Column(db.Boolean, default=True)
 
