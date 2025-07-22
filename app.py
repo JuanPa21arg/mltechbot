@@ -292,6 +292,14 @@ Respuesta:"""
     except Exception as e:
         print("❌ Error con OpenAI:", str(e))
         return jsonify({"respuesta": "Lo siento, no puedo responder ahora."})
+    
+with app.app_context():
+    usuario = Usuario.query.filter_by(nombre="Dueño").first()
+    if usuario and not usuario.activo:
+        usuario.activo = True
+        db.session.commit()
+        print("✅ Usuario activado desde código")
+
 
 # ---------- INICIALIZAR ----------
 if __name__ == '__main__':
