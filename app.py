@@ -226,14 +226,14 @@ def toggle_usuario(user_id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-"""@app.route('/hacer_admin')
+@app.route('/hacer_admin')
 def hacer_admin():
     usuario = Usuario.query.filter_by(nombre="Dueño").first()
     if usuario:
         usuario.es_admin = True
         db.session.commit()
         return "El usuario 'Dueño' ahora es administrador."
-    return "Usuario no encontrado." """
+    return "Usuario no encontrado." 
 
 @app.route('/api/responder', methods=['POST'])
 def api_responder():
