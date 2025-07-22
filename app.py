@@ -12,22 +12,24 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'clave-secreta-mltech'
 
-raw_password = os.getenv("PGPASSWORD", "")
-if raw_password is None:
-    raise RuntimeError("❌ Variable de entorno PGPASSWORD no encontrada")
-password = urllib.parse.quote_plus(raw_password)
+# Cargar variables de entorno PostgreSQL
 user = os.getenv("PGUSER")
 raw_password = os.getenv("PGPASSWORD")
 host = os.getenv("PGHOST")
 port = os.getenv("PGPORT")
 db = os.getenv("PGDATABASE")
 
-# Validación
+# Validar que todas existan
 if not all([user, raw_password, host, port, db]):
     raise RuntimeError("❌ Faltan variables de entorno para PostgreSQL")
 
+# Codificar contraseña si tiene caracteres especiales
+import urllib.parse
 password = urllib.parse.quote_plus(raw_password)
+
+# Configurar SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{user}:{password}@{host}:{port}/{db}'
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{user}:{password}@{host}:{port}/{db}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
