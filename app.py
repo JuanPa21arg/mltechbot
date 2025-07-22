@@ -4,13 +4,20 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from werkzeug.security import generate_password_hash, check_password_hash
 import openai
 import os
+import urllib.parse
 from dotenv import load_dotenv
 load_dotenv()
 
 
 app = Flask(__name__)
 app.secret_key = 'clave-secreta-mltech'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///respuestas.db'
+user = os.getenv("PGUSER")
+password = urllib.parse.quote_plus(os.getenv("PGPASSWORD"))
+host = os.getenv("PGHOST")
+port = os.getenv("PGPORT")
+db = os.getenv("PGDATABASE")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{user}:{password}@{host}:{port}/{db}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
