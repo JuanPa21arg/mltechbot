@@ -58,7 +58,20 @@
         }
     </style>
 </head>
+{% if tiene_sesion(usuario.id) %}
+    🟢 Ya conectado
+{% else %}
+    🔴 No conectado
+    <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
+        <button type="submit">Iniciar bot</button>
+    </form>
+{% endif %}
+
 <body>
+    <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
+    <button type="submit">🟢 Iniciar bot</button>
+</form>
+
     <div class="contenedor">
         <div class="branding">
             <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">

@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from werkzeug.security import generate_password_hash, check_password_hash
 import openai
 import os
+import subprocess
 import urllib.parse
 from dotenv import load_dotenv
 load_dotenv()
@@ -96,6 +97,16 @@ def registro():
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('registro.html')
+
+@app.route('/iniciar_bot/<int:user_id>', methods=['POST'])
+@login_required
+def iniciar_bot(user_id):
+    try:
+        subprocess.Popen(["node", "index.js", str(user_id)])
+        flash(f"✅ Bot del usuario {user_id} iniciado correctamente.", "success")
+    except Exception as e:
+        flash(f"❌ Error al iniciar el bot: {str(e)}", "error")
+    return redirect(url_for('admin'))  # o donde quieras volver
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -230,6 +241,8 @@ def eliminar_respuesta(id):
     db.session.commit()
     return redirect(url_for('respuestas'))
 
+def tiene_sesion(user_id):
+    return os.path.exists(f"./.wwebjs_auth/client_{user_id}")
 
 @app.route('/admin/toggle/<int:user_id>')
 @login_required
