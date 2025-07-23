@@ -241,9 +241,6 @@ def eliminar_respuesta(id):
     db.session.commit()
     return redirect(url_for('respuestas'))
 
-def tiene_sesion(user_id):
-    return os.path.exists(f"./.wwebjs_auth/client_{user_id}")
-
 @app.route('/admin/toggle/<int:user_id>')
 @login_required
 def toggle_usuario(user_id):
