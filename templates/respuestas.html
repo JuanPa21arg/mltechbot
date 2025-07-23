@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Respuestas automáticas | MLTechHub</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 👈 Responsivo -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         ul {
             list-style-type: none;
@@ -58,26 +60,26 @@
         }
     </style>
 </head>
-{% if tiene_sesion(usuario.id) %}
-    🟢 Ya conectado
-{% else %}
-    🔴 No conectado
-    <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
-        <button type="submit">Iniciar bot</button>
-    </form>
-{% endif %}
-
 <body>
-    <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
-    <button type="submit">🟢 Iniciar bot</button>
-</form>
-
     <div class="contenedor">
         <div class="branding">
             <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
             <h1>MLTechBot</h1>
             <p class="subtitulo">Gestioná las respuestas automáticas del bot</p>
         </div>
+
+        {% if tiene_sesion(usuario.id) %}
+            <p style="color: green;">🟢 Ya conectado</p>
+        {% else %}
+            <p style="color: red;">🔴 No conectado</p>
+            <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
+                <button type="submit">Iniciar bot</button>
+            </form>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
+            <button type="submit">🟢 Iniciar bot</button>
+        </form>
 
         <h2><i class="fas fa-comments"></i> Reglas de respuesta</h2>
 
@@ -99,9 +101,10 @@
                 <li>
                     <strong>{{ r.mensaje }}</strong> → {{ r.respuesta }}
                     <div>
-                        <a href="{{ url_for('editar_respuesta', id=r.id) }}"><i class="fas fa-pen"></i> Editar</a>
-                        |
-                        <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');"><i class="fas fa-trash"></i> Eliminar</a>
+                        <a href="{{ url_for('editar_respuesta', id=r.id) }}"><i class="fas fa-pen"></i> Editar</a> |
+                        <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
                     </div>
                 </li>
             {% else %}
@@ -123,7 +126,7 @@
             <i class="fas fa-phone"></i> +54 381 562-6494
         </p>
         <p>
-            <i class="fab fa-instagram"></i>
+            <i class="fab fa-instagram"></i> 
             <a href="https://instagram.com/mltechhub" target="_blank">@mltechhub</a>
         </p>
     </footer>
