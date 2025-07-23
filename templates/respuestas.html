@@ -59,9 +59,15 @@
     </style>
 </head>
 <body>
+    {% if tiene_sesion(usuario.id) %}
+    <p style="color: green; font-weight: bold;">🟢 Bot ya conectado</p>
+{% else %}
+    <p style="color: red; font-weight: bold;">🔴 Bot no conectado</p>
     <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
-    <button type="submit">🟢 Iniciar bot</button>
-</form>
+        <button type="submit">Iniciar bot</button>
+    </form>
+{% endif %}
+
 
     <div class="contenedor">
         <div class="branding">
