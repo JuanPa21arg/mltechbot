@@ -13,8 +13,10 @@ def tiene_sesion(user_id):
     return os.path.exists(f"./.wwebjs_auth/client_{user_id}")
 
 def obtener_ruta_qr(user_id):
-    qr_path = f"../mltech-bot/qrs/qr_{user_id}.png"
-    return qr_path if os.path.exists(qr_path) else None
+    ruta_relativa = f"static/qrs/qr_{user_id}.png"
+    ruta_absoluta = os.path.join(os.getcwd(), ruta_relativa)
+    return ruta_relativa if os.path.exists(ruta_absoluta) else None
+
 
 
 app = Flask(__name__)
