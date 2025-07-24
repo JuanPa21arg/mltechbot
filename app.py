@@ -330,6 +330,25 @@ Respuesta:"""
         db.session.commit()
         print("✅ Usuario activado desde código")"""
 
+@app.route('/api/guardar_qr', methods=['POST'])
+def guardar_qr():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    qr_base64 = data.get('qr')
+
+    if not user_id or not qr_base64:
+        return "Faltan datos", 400
+
+    import base64
+    header, encoded = qr_base64.split(",", 1)
+    binary_data = base64.b64decode(encoded)
+
+    qr_path = f"static/qrs/qr_{user_id}.png"
+    with open(qr_path, "wb") as f:
+        f.write(binary_data)
+
+    return "QR guardado", 200
+
 
 # ---------- INICIALIZAR ----------
 if __name__ == '__main__':
