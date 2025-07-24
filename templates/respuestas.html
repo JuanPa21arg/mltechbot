@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Respuestas automáticas | MLTechHub</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 👈 Responsivo -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='MLtechhub.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         ul {
             list-style-type: none;
@@ -59,16 +61,32 @@
     </style>
 </head>
 <body>
+
+    <!-- Estado del bot -->
     {% if tiene_sesion(usuario.id) %}
-    <p style="color: green; font-weight: bold;">🟢 Bot ya conectado</p>
-{% else %}
-    <p style="color: red; font-weight: bold;">🔴 Bot no conectado</p>
-    <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
-        <button type="submit">Iniciar bot</button>
-    </form>
-{% endif %}
+        <p style="color: green; font-weight: bold;">🟢 Bot ya conectado</p>
 
+        {% if qr_path %}
+            <h3>📷 Escaneá este QR:</h3>
+            <img src="{{ url_for('static', filename=qr_path.split('static/')[-1]) }}" width="300">
+        {% else %}
+            <p>🕓 Esperando a que se genere el QR...</p>
+        {% endif %}
+    {% else %}
+        <p style="color: red; font-weight: bold;">🔴 Bot no conectado</p>
+        {% if qr_path %}
+            <h3>📷 Escaneá este QR:</h3>
+            <img src="{{ url_for('static', filename='qrs/qr_' ~ usuario.id ~ '.png') }}" width="300">
+        {% else %}
+            <p>🕓 Esperando a que se genere el QR...</p>
+        {% endif %}
 
+        <form method="POST" action="{{ url_for('iniciar_bot', user_id=usuario.id) }}">
+            <button type="submit">Iniciar bot</button>
+        </form>
+    {% endif %}
+
+    <!-- Contenido principal -->
     <div class="contenedor">
         <div class="branding">
             <img src="{{ url_for('static', filename='MLtechhub.png') }}" alt="MLTechHub Logo">
@@ -96,9 +114,13 @@
                 <li>
                     <strong>{{ r.mensaje }}</strong> → {{ r.respuesta }}
                     <div>
-                        <a href="{{ url_for('editar_respuesta', id=r.id) }}"><i class="fas fa-pen"></i> Editar</a>
+                        <a href="{{ url_for('editar_respuesta', id=r.id) }}">
+                            <i class="fas fa-pen"></i> Editar
+                        </a>
                         |
-                        <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');"><i class="fas fa-trash"></i> Eliminar</a>
+                        <a href="{{ url_for('eliminar_respuesta', id=r.id) }}" onclick="return confirm('¿Eliminar esta respuesta?');">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
                     </div>
                 </li>
             {% else %}
@@ -111,12 +133,14 @@
         </p>
     </div>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; <span id="anio"></span> MLTechHub. Todos los derechos reservados.</p>
         <p>Desarrollado por <strong>MLTechHub</strong></p>
         <p>
             <i class="fas fa-envelope"></i> admin@mltechhub.com |
-            <i class="fas fa-globe"></i> <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
+            <i class="fas fa-globe"></i> 
+            <a href="https://www.mltechhub.com" target="_blank">www.mltechhub.com</a> |
             <i class="fas fa-phone"></i> +54 381 562-6494
         </p>
         <p>
@@ -125,6 +149,7 @@
         </p>
     </footer>
 
+    <!-- Script año automático -->
     <script>
         document.getElementById('anio').textContent = new Date().getFullYear();
     </script>

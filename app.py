@@ -12,6 +12,10 @@ load_dotenv()
 def tiene_sesion(user_id):
     return os.path.exists(f"./.wwebjs_auth/client_{user_id}")
 
+def obtener_ruta_qr(user_id):
+    qr_path = f"../mltech-bot/qrs/qr_{user_id}.png"
+    return qr_path if os.path.exists(qr_path) else None
+
 
 app = Flask(__name__)
 app.secret_key = 'clave-secreta-mltech'
@@ -199,8 +203,18 @@ def respuestas():
         nueva = Respuesta(mensaje=mensaje, respuesta=respuesta, usuario_id=current_user.id)
         db.session.add(nueva)
         db.session.commit()
+
     reglas = Respuesta.query.filter_by(usuario_id=current_user.id).all()
-    return render_template('respuestas.html', reglas=reglas, usuario=current_user, tiene_sesion=tiene_sesion)
+    qr_path = obtener_ruta_qr(current_user.id)
+
+    return render_template(
+        "respuestas.html",
+        reglas=reglas,
+        usuario=current_user,
+        tiene_sesion=tiene_sesion,
+        qr_path=qr_path
+    )
+
 
 
 @app.route('/admin/toggle_admin/<int:user_id>')
